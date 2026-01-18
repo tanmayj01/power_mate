@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bill_model.dart';
 
-class EnergyCostCalculator extends
-
-tatefulWidget {
+class EnergyCostCalculator extends StatefulWidget {
   final Function(Bill) onSaveBill;
 
   const EnergyCostCalculator({
@@ -84,105 +82,114 @@ class _EnergyCostCalculatorState extends State<EnergyCostCalculator> {
 
   @override
   Widget build(BuildContext context) {
+    const mediumBlue = Color(0xFF1976D2);
     const lightBlueBg = Color(0xFFE3F2FD);
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // 🔹 DEVICE SELECTION
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: DropdownButton<String>(
-                value: selectedDevice,
-                isExpanded: true,
-                underline: const SizedBox(),
-                items: devices.map((device) {
-                  return DropdownMenuItem(
-                    value: device,
-                    child: Text(device),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedDevice = value!;
-                  });
-                },
-              ),
-            ),
-          ),
-
-          // 🔹 CUSTOM DEVICE NAME
-          if (selectedDevice == 'Other (Custom)')
+    return Scaffold(
+      backgroundColor: lightBlueBg,
+      appBar: AppBar(
+        backgroundColor: mediumBlue,
+        title: const Text('Electricity Cost Calculator'),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // 🔹 DEVICE SELECTION
             Card(
-              margin: const EdgeInsets.only(top: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: ListTile(
-                leading: const Icon(Icons.edit),
-                title: TextField(
-                  controller: customDeviceController,
-                  decoration: const InputDecoration(
-                    hintText: "Enter device name",
-                    border: InputBorder.none,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: DropdownButton<String>(
+                  value: selectedDevice,
+                  isExpanded: true,
+                  underline: const SizedBox(),
+                  items: devices.map((device) {
+                    return DropdownMenuItem(
+                      value: device,
+                      child: Text(device),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDevice = value!;
+                    });
+                  },
                 ),
               ),
             ),
 
-          const SizedBox(height: 12),
+            // 🔹 CUSTOM DEVICE NAME
+            if (selectedDevice == 'Other (Custom)')
+              Card(
+                margin: const EdgeInsets.only(top: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  leading: const Icon(Icons.edit),
+                  title: TextField(
+                    controller: customDeviceController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter device name",
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
 
-          inputCard(
-            Icons.flash_on,
-            "Device power use (W)",
-            powerController,
-          ),
-          inputCard(
-            Icons.access_time,
-            "Daily use time (H)",
-            hourController,
-          ),
-          inputCard(
-            Icons.currency_rupee,
-            "Electricity price",
-            priceController,
-          ),
+            const SizedBox(height: 12),
 
-          const SizedBox(height: 12),
-
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1976D2),
-              minimumSize: const Size(double.infinity, 52),
+            inputCard(
+              Icons.flash_on,
+              "Device power use (W)",
+              powerController,
             ),
-            onPressed: calculate,
-            child: const Text("Calculate"),
-          ),
-
-          const SizedBox(height: 8),
-
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              minimumSize: const Size(double.infinity, 52),
+            inputCard(
+              Icons.access_time,
+              "Daily use time (H)",
+              hourController,
             ),
-            onPressed: saveBill,
-            child: const Text("Save Bill"),
-          ),
+            inputCard(
+              Icons.currency_rupee,
+              "Electricity price",
+              priceController,
+            ),
 
-          const SizedBox(height: 20),
+            const SizedBox(height: 12),
 
-          resultCard("Cost per hour", costHour),
-          resultCard("Cost per day", costDay),
-          resultCard("Cost per month", costMonth),
-          resultCard("Cost per year", costYear),
-          resultCard("Daily consumption (kWh)", dailyUnit),
-        ],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: mediumBlue,
+                minimumSize: const Size(double.infinity, 52),
+              ),
+              onPressed: calculate,
+              child: const Text("Calculate"),
+            ),
+
+            const SizedBox(height: 8),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                minimumSize: const Size(double.infinity, 52),
+              ),
+              onPressed: saveBill,
+              child: const Text("Save Bill"),
+            ),
+
+            const SizedBox(height: 20),
+
+            resultCard("Cost per hour", costHour),
+            resultCard("Cost per day", costDay),
+            resultCard("Cost per month", costMonth),
+            resultCard("Cost per year", costYear),
+            resultCard("Daily consumption (kWh)", dailyUnit),
+          ],
+        ),
       ),
     );
   }
