@@ -75,7 +75,7 @@ class _EnergyCostCalculatorState extends State<EnergyCostCalculator> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text("Bill saved successfully"),
+        content: Text("Bill saved successfully."),
       ),
     );
   }
