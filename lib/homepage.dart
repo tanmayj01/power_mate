@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bill_model.dart';
 
-class EnergyCostCalculator extends S
+class EnergyCostCalculator extends
 
 tatefulWidget {
   final Function(Bill) onSaveBill;
