@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // or main_screen.dart if no login
+import 'login_page.dart'; // open the login screen first.
 
 void main() {
   runApp(const MyApp());
